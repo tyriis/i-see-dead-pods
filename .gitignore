@@ -1,0 +1,14 @@
+# Editors
+.vscode/
+.idea/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# vscode-sops
+.decrypted~*.yaml
+
+# Env files
+*.envrc
+*.env

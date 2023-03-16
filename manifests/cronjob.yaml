@@ -1,0 +1,30 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: i-see-dead-pods
+  namespace: kube-system
+spec:
+  schedule: "* * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          serviceAccountName: i-see-dead-pods
+          containers:
+            - name: kubectl
+              image: ghcr.io/k8s-at-home/kubectl:v1.25.4
+              command:
+                - /bin/sh
+                - -ec
+                - |
+                  kubectl get pods \
+                    --all-namespaces \
+                    -o go-template \
+                    --template='{{range .items}}{{printf "%s %s %s\n" .metadata.namespace .metadata.name .status.message}}{{end}}' \
+                    | grep "Pod was terminated in response to imminent node shutdown." \
+                    | awk '{print $1, $2}' \
+                    | xargs -n2 kubectl delete pod -n || true
+          restartPolicy: OnFailure

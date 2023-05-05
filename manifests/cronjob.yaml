@@ -26,5 +26,5 @@ spec:
                     --template='{{range .items}}{{printf "%s %s %s\n" .metadata.namespace .metadata.name .status.message}}{{end}}' \
                     | grep "Pod was terminated in response to imminent node shutdown." \
                     | awk '{print $1, $2}' \
-                    | xargs -n2 kubectl delete pod -n || true
+                    | xargs -r -n2 kubectl delete pod -n || true
           restartPolicy: OnFailure

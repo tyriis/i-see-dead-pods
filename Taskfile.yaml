@@ -1,0 +1,11 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/taskfile.json
+version: "3"
+
+vars:
+  PROJECT_DIR:
+    sh: "git rev-parse --show-toplevel"
+
+includes:
+  pre-commit: .taskfiles/pre-commit/Taskfile.yaml
+  lint: .taskfiles/lint/Taskfile.yaml

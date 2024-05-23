@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/taskfile.json
+version: "3"
+
+tasks:
+  all:
+    - task: markdown
+    - task: prettier
+    - task: yaml
+
+  markdown:
+    desc: Lint Markdown
+    cmds:
+      - "markdownlint -c .markdownlint.yaml *.md **/*.md"
+
+  prettier:
+    desc: Lint with prettier
+    cmds:
+      - "prettier --ignore-path .prettierignore --config .prettierrc.yaml --check ."
+
+  prettier:fix:
+    desc: Lint with prettier autofix
+    cmds:
+      - "prettier --ignore-path .prettierignore --config .prettierrc.yaml --write ."
+
+  yaml:
+    desc: Lint YAML
+    cmds:
+      - "yamllint -c .yamllint.yaml ."

@@ -34,7 +34,7 @@ Get rid of `Pod was terminated in response to imminent node shutdown.` Pods fore
 
 ## Story
 
-In kubernetes with gracefull shutdown enabled, pods can stay for long time perriods in a `broken` state. The state results in alerting getting fired by kube-prometheus-stack.
+In Kubernetes, pods can remain in a broken state for a long time if graceful shutdown is enabled. This state results in an alert getting fired by kube-prometheus-stack.
 
 ```console
 [FIRING:1] Pod has been in a non-ready state for more than 15 minutes.
@@ -61,8 +61,7 @@ You can apply the manifests manually:
 
 ```console
 kubectl apply -f https://raw.githubusercontent.com/tyriis/i-see-dead-pods/main/manifests/service-account.yaml
-kubectl apply -f https://raw.githubusercontent.com/tyriis/i-see-dead-pods/main/manifests/cluster-role.yaml
-kubectl apply -f https://raw.githubusercontent.com/tyriis/i-see-dead-pods/main/manifests/cluster-role-binding.yaml
+kubectl apply -f https://raw.githubusercontent.com/tyriis/i-see-dead-pods/main/manifests/rbac.yaml
 kubectl apply -f https://raw.githubusercontent.com/tyriis/i-see-dead-pods/main/manifests/cronjob.yaml
 ```
 
@@ -72,7 +71,7 @@ or with kustomize
 
 ### flux helmrelease
 
-or with flux
+or with flux, see [helmrelease](./manifests/flux-helmrelease.yaml).
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->

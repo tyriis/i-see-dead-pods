@@ -57,14 +57,14 @@ repos:
       - id: remove-tabs
 
   - repo: https://github.com/sirosen/texthooks
-    rev: 0.6.6
+    rev: 0.6.7
     hooks:
       - id: fix-smartquotes
       - id: fix-ligatures
       - id: forbid-bidi-controls
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.40.0
+    rev: v0.41.0
     hooks:
       - id: markdownlint-fix
         args:
@@ -89,4 +89,4 @@ repos:
   - repo: https://github.com/zricethezav/gitleaks
     rev: v8.18.2
     hooks:
-      - id: gitleaks-docker
+      - id: gitleaks

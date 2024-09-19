@@ -15,7 +15,7 @@ spec:
           serviceAccountName: i-see-dead-pods
           containers:
             - name: kubectl
-              image: ghcr.io/k8s-at-home/kubectl:v1.25.4
+              image: bitnami/kubectl:1.31.1@sha256:27e5f500a2de2ba249a159c4af0b075500ad8a1afaa59ba1edf09bf83c656fd4
               command:
                 - /bin/sh
                 - -ec
@@ -27,4 +27,18 @@ spec:
                     | grep "Pod was terminated in response to imminent node shutdown." \
                     | awk '{print $1, $2}' \
                     | xargs -r -n2 kubectl delete pod -n || true
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 10Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
           restartPolicy: OnFailure
+          securityContext:
+            runAsGroup: 65534
+            runAsNonRoot: true
+            runAsUser: 65534

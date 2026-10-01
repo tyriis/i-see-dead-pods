@@ -14,7 +14,7 @@ on:
         default: debug
         required: false
   schedule:
-    - cron: "17 * * * *"
+    - cron: "0 */6 * * *"
   push:
     branches:
       - main
@@ -23,6 +23,13 @@ on:
       - .github/renovate-bot.json5
       - .github/renovate/**.json5
       - .github/workflows/schedule-renovate.yaml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: renovate
+  cancel-in-progress: false
 
 env:
   LOG_LEVEL: debug
@@ -47,11 +54,15 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: "${{ steps.app-token.outputs.token }}"
+          persist-credentials: false
 
       - name: Override default config from dispatch variables
+        env:
+          INPUT_DRY_RUN: ${{ github.event.inputs.dryRun }}
+          INPUT_LOG_LEVEL: ${{ github.event.inputs.logLevel }}
         run: |
-          echo "RENOVATE_DRY_RUN=${{ github.event.inputs.dryRun || env.RENOVATE_DRY_RUN }}" >> "${GITHUB_ENV}"
-          echo "LOG_LEVEL=${{ github.event.inputs.logLevel || env.LOG_LEVEL }}" >> "${GITHUB_ENV}"
+          echo "RENOVATE_DRY_RUN=${INPUT_DRY_RUN:-${RENOVATE_DRY_RUN}}" >> "${GITHUB_ENV}"
+          echo "LOG_LEVEL=${INPUT_LOG_LEVEL:-${LOG_LEVEL}}" >> "${GITHUB_ENV}"
 
       # https://github.com/marketplace/actions/renovate-bot-github-action
       - name: Renovate

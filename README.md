@@ -55,6 +55,16 @@ These manifests provide a Kubernetes `CronJob`. The `CronJob` deletes all Pods t
 
 The `CronJob` deletes Pods in all namespaces and needs cluster-wide delete permission. All resources use the `kube-system` namespace.
 
+Detection does not rely on `status.message` alone. The kubelet writes
+`Pod was terminated in response to imminent node shutdown.` there, but overwrites
+it on its next status sync. The durable marker is the `DisruptionTarget`
+condition with reason `TerminationByKubelet`, so the `CronJob` reads the whole
+conditions column and matches either field.
+
+Do not switch the selection back to `go-template` output. The bjw-s
+`app-template` chart renders every string value as a Helm template, which turns
+the template into an empty argument.
+
 ### kubectl
 
 Apply the raw manifests:

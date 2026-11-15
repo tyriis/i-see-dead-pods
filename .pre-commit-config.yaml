@@ -5,6 +5,9 @@ default_stages:
   - pre-commit
   - pre-push
 
+default_language_version:
+  node: system
+
 repos:
   # checks pre-commit config for errors
   - repo: meta

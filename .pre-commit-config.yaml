@@ -1,12 +1,11 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/pre-commit-config.json
 fail_fast: false
+default_language_version:
+  node: system
 default_stages:
   - pre-commit
   - pre-push
-
-default_language_version:
-  node: system
 
 repos:
   # checks pre-commit config for errors
